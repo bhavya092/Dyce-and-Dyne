@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Dyce & Dyne</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+		/>
+		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="icon" href="/images/logo.png" type="image/x-icon" />
+	</head>
+
+	<body>
+		<div class="main-wrapper">
+			<div style="background-color: white" class="nav-background">
+				<div class="mobile-logo">
+					<img style="width: 120px" src="./images/logo.png" alt="" />
+				</div>
+				<div class="mobile-nav">
+					<div class="nav-top">
+						<ul>
+							<% if(currentUser) { %>
+							<li style="font-size: 28px">
+								<a style="font-weight: 700" href="/"
+									>Hey,
+									<span style="color: #eebf00"
+										><%= currentUser.name %></span
+									></a
+								>
+							</li>
+							<li>
+								<a href="/profile">Profile</a>
+							</li>
+
+							<% } %>
+							<li>
+								<a href="#">Home</a>
+							</li>
+							<li>
+								<a href="#aboutus">About us</a>
+							</li>
+							<li>
+								<a href="/menu">Menu</a>
+							</li>
+							<li>
+								<a href="/cart">Cart</a>
+							</li>
+							<li>
+								<a href="/games">Games</a>
+							</li>
+							<li>
+								<a href="/profile">Profile</a>
+							</li>
+							<% if(!currentUser) {%>
+							<li>
+								<a href="/auth/login">Log in</a>
+							</li>
+							<li>
+								<a href="/auth/signup">Register</a>
+							</li>
+							<% } %>
+						</ul>
+					</div>
+					<div class="contact flex items-center">
+						<img src="./icons/phone.svg" alt="" />
+						<div>
+							<h5>Call us: (+84) 123 456 789</h5>
+							<h6>E-mail : support@Dyce & Dyne.com</h6>
+						</div>
+					</div>
+					<div class="time flex items-center">
+						<img src="./icons/clock.svg" alt="" />
+						<div>
+							<h5>Working Hours:</h5>
+							<h6>Mon - Sat (8.00am - 12.00am)</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="site-content-wrapper">
+				<div class="nav-trigger">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="feather feather-bar-chart"
+					>
+						<line x1="12" y1="20" x2="12" y2="10" />
+						<line x1="18" y1="20" x2="18" y2="4" />
+						<line x1="6" y1="20" x2="6" y2="16" />
+					</svg>
+				</div>
+				<div class="site-content">
+					<header class="topbar">
+						<div
+							class="container flex justify-between items-center"
+						>
+							<div class="icons">
+								<a href="#"
+									><img src="./icons/facebook.svg" alt=""
+								/></a>
+								<a href="#"
+									><img src="./icons/twitter.svg" alt=""
+								/></a>
+								<a href="#"
+									><img src="./icons/google.svg" alt=""
+								/></a>
+								<a href="#"
+									><img src="./icons/instagram.svg" alt=""
+								/></a>
+								<a href="#"
+									><img src="./icons/search.svg" alt=""
+								/></a>
+							</div>
+							<div class="auth flex items-center">
+								<% if(!currentUser) {%>
+								<div>
+									<img src="./icons/user-icon.svg" alt="" />
+									<a href="/auth/login">Log in</a>
+								</div>
+								<span class="divider">|</span>
+								<div>
+									<img src="./icons/edit.svg" alt="" />
+									<a href="/auth/signup">Register Now</a>
+								</div>
+								<% } else { %>
+								<div>
+									<img src="./icons/user-icon.svg" alt="" />
+									<a href="/profile"
+										>Hey, <%= currentUser.name %></a
+									>
+								</div>
+								<span class="divider">|</span>
+								<div class="">
+									<img src="./icons/edit.svg" alt="" />
+									<a href="/auth/logout">Logout</a>
+								</div>
+								<% } %>
+							</div>
+						</div>
+					</header>
+
+					<nav>
+						<div class="top">
+							<div class="container flex justify-between">
+								<div class="contact flex items-center">
+									<img src="./icons/phone.svg" alt="" />
+									<div>
+										<h5>Call US: (+91) 887 425 6969</h5>
+										<h6>E-mail : support@dyce&dyne.com</h6>
+									</div>
+								</div>
+								<div class="branding">
+									<img
+										src="./images/logo.png"
+										alt=""
+										height="80px"
+									/>
+								</div>
+								<div class="time flex items-center">
+									<img src="./icons/clock.svg" alt="" />
+									<div>
+										<h5>Working Hours:</h5>
+										<h6>Mon - Sat (8.00am - 12.00am)</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="navbar magic-shadow">
+							<div class="container flex justify-center">
+								<a href="#" class="active">Home</a>
+								<a href="#aboutus">About us</a>
+								<a href="/menu">Menu</a>
+								<a href="/cart">Cart</a>
+								<a href="/games">Games</a>
+								<a href="/profile">Profile</a>
+								<a href="#contact">Contact us</a>
+							</div>
+							<br />
+						</div>
+					</nav>
+
+					<header class="hero flex items-center">
+						<div class="container">
+							<div class="welcome flex items-center">
+								<span
+									>Welcome to
+									<span
+										style="
+											color: rgb(233, 198, 0);
+											font-weight: bold;
+											font-size: 26px;
+										"
+										>Dyce & Dyne</span
+									></span
+								>
+							</div>
+							<h2>Discover the best food & drinks.</h2>
+							<p>
+								Pick From a Wide Selection Of Cuisines and Get
+								Lightning Fast Delivery. Good Food Is All It
+								Takes To Make Things Right. Order Delicious Food
+								Now. Unlimited Choices. Limitless Options.
+								Online Payment Options. Super Quick Delivery.
+								COD Available.
+							</p>
+							<div>
+								<a class="btn btn-primary" href="#aboutus">
+									Read More
+								</a>
+								<a class="btn btn-success" href="/menu">
+									Shop Now
+								</a>
+							</div>
+							<div class="hero-image">
+								<img src="./images/straw.png" alt="" />
+							</div>
+						</div>
+					</header>
+
+					<section id="aboutus" class="about-meal">
+						<div class="container">
+							<h1 class="section-heading">
+								About
+								<span style="color: #eebf00">Dyce&Dyne</span>
+							</h1>
+							<div class="about-meal-wrap flex">
+								<div class="flex-1">
+									<img src="./images/yogurt.png" alt="" />
+								</div>
+								<div class="flex-1">
+									<h2>
+										Dyce&Dyne, is a haven for everyone. Not
+										just board game lovers but also foodies.
+									</h2>
+									<p>
+										Rather than the usual good food and grub
+										that you would expect, DYCE & DYNE
+										specializes in one other thing. They
+										offer board games for you to play with.
+										One thing to note about DYCE n DYNE is
+										that they take their FOOD SERIOUSLY.
+										They may have goofy names but the dishes
+										they serve out are perfect for game
+										nights.
+									</p>
+									<!-- <button class="btn btn-secondary">
+										Read More
+									</button> -->
+								</div>
+							</div>
+						</div>
+					</section>
+					<section id="services" class="our-services">
+						<div class="container">
+							<h1 class="section-heading">Our services</h1>
+							<div
+								class="
+									card-wrapper
+									flex
+									row
+									justify-content-center
+								"
+							>
+								<div
+									class="
+										service-card
+										magic-shadow-sm
+										col-sm-3
+									"
+								>
+									<img
+										class="icon"
+										src="./icons/transport.svg"
+										alt=""
+									/>
+									<h2>Order Food Online</h2>
+									<p>
+										Hassle-Free Ordering. Eat Something
+										Amazing Today
+									</p>
+								</div>
+								<div
+									class="
+										service-card
+										magic-shadow-sm
+										col-sm-3
+									"
+								>
+									<img
+										class="icon"
+										src="./icons/bag.svg"
+										alt=""
+									/>
+									<h2 class="text-primary">
+										Wide Variety of Food
+									</h2>
+									<p>
+										Good Food Is All It Takes To Make Things
+										Right.
+									</p>
+								</div>
+								<div
+									class="
+										service-card
+										magic-shadow-sm
+										col-sm-3
+									"
+								>
+									<img
+										class="icon"
+										src="./icons/usd.svg"
+										alt=""
+									/>
+									<h2>Play Games to Win</h2>
+									<p>
+										Play our games, win and collect points
+										to get discounts on every order.
+									</p>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="top-products">
+						<div class="container">
+							<h1 class="section-heading">Top products</h1>
+							<div class="slider">
+								<button class="slider-btn prev-btn">
+									<img src="./icons/pre.svg" alt="" />
+								</button>
+								<button class="slider-btn next-btn">
+									<img src="./icons/next.svg" alt="" />
+								</button>
+								<div class="food-slider">
+									<% topItems.forEach(item => { %>
+									<div class="food-card magic-shadow-sm">
+										<div
+											class="
+												product-image
+												flex
+												items-center
+												justify-center
+											"
+										>
+											<img
+												src="<%= item.image %>"
+												alt=""
+											/>
+										</div>
+										<hr />
+										<div>
+											<h2 class="text-center">
+												<%= item.title %>
+											</h2>
+											<div class="px-3 text-center">
+												<p><%= item.desc %></p>
+											</div>
+											<div
+												class="price text-center"
+												style="color: #090f35"
+											>
+												Rs <%= item.cost %>
+											</div>
+											<div class="flex justify-center">
+												<form
+													style="width: 300px"
+													action="/cart/<%= item._id %>"
+													method="post"
+												>
+													<button class="mx-auto">
+														<img
+															src="./icons/cart-2.svg"
+															alt=""
+														/>
+														<span>Add to cart</span>
+													</button>
+												</form>
+											</div>
+										</div>
+									</div>
+									<% }) %>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section class="big-deal">
+						<div class="container">
+							<h1 class="section-heading text-pure">
+								Big Deals of the Week
+							</h1>
+							<div class="timer row d-flex">
+								<div>
+									<span>100%</span>
+									<span>Quality Assurance</span>
+								</div>
+								<div>
+									<span>4.6*</span>
+									<span>Google Rating</span>
+								</div>
+								<div>
+									<span>5690+</span>
+									<span>Orders Delivered</span>
+								</div>
+								<div>
+									<span>2000+</span>
+									<span>Happy Customers</span>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section
+						id="contact"
+						class="contact-us flex d-flex row m-0 p-0"
+					>
+						<div class="contact-info-wrapper col-lg-6 col-sm-12">
+							<h1 class="section-heading">Contact us</h1>
+							<div class="contact-info">
+								<div>
+									<div>
+										<img src="./icons/phone-2.svg" alt="" />
+										<div>
+											<span>Call us:</span>
+											<span>(+91) 900 000 0000</span>
+										</div>
+									</div>
+									<div>
+										<img src="./icons/bag-2.svg" alt="" />
+										<div>
+											<span>E-mail ::</span>
+											<span>support@Dyce&Dyne.com</span>
+										</div>
+									</div>
+									<div>
+										<img src="./icons/clock-2.svg" alt="" />
+										<div>
+											<span>Working Hours:</span>
+											<span
+												>Mon - Sat (8.00am -
+												12.00am)</span
+											>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="map col-lg-6 col-sm-12 p-0">
+							<iframe
+								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7198.685490749466!2d72.8410088852966!3d19.215729905825974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDEyJzQ4LjQiTiA3MsKwNTAnMzAuNSJF!5e0!3m2!1sen!2sin!4v1635320404930!5m2!1sen!2sin"
+								width="600"
+								height="450"
+								style="border: 0"
+								allowfullscreen=""
+								loading="lazy"
+							></iframe>
+						</div>
+					</section>
+
+					<footer>
+						<div class="container">
+							<div class="box">
+								<h3>About us</h3>
+								<p>
+									Whether you’re looking for biryani to feed
+									your desi cravings, soul comforting pizzas
+									and burgers, or even a salad with a cup of
+									chai or coffee,
+									<span style="color: #eebf00"
+										>Dyce&Dyne</span
+									>
+									is the only app you need for the quickest
+									doorstep delivery of your favourites.
+								</p>
+							</div>
+							<div class="box">
+								<h3>Quick Links</h3>
+								<ul>
+									<li>
+										<a href="/">Home</a>
+									</li>
+									<li>
+										<a href="#aboutus">About us</a>
+									</li>
+									<li>
+										<a href="/menu">Menu</a>
+									</li>
+									<li>
+										<a href="/cart">Cart</a>
+									</li>
+									<li>
+										<a href="/games">Games</a>
+									</li>
+									<li>
+										<a href="#contact">Contact us</a>
+									</li>
+								</ul>
+							</div>
+							<div class="box">
+								<h3>Follow Us</h3>
+								<div>
+									<ul>
+										<li>
+											<a
+												href="https://www.facebook.com/codersgyan"
+											>
+												<img
+													src="./icons/facebook.svg"
+													alt=""
+												/>
+												<span>Facebook</span>
+											</a>
+										</li>
+										<li>
+											<a
+												href="https://twitter.com/CoderGyan"
+											>
+												<img
+													src="./icons/twitter.svg"
+													alt=""
+												/>
+												<span>Twitter</span>
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												<img
+													src="./icons/google.svg"
+													alt=""
+												/>
+												<span>Google +</span>
+											</a>
+										</li>
+										<li>
+											<a
+												href="https://www.instagram.com/codersgyan/"
+											>
+												<img
+													src="./icons/instagram.svg"
+													alt=""
+												/>
+												<span>Instagram</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="box instagram-api">
+								<h3>Instagram</h3>
+								<div class="post-wrap">
+									<div>
+										<img
+											src="https://b.zmtcdn.com/data/pictures/9/19640369/56444f1caf069ffac1b34583dc8e13d8_o2_featured_v2.jpg?output-format=webp"
+											alt=""
+										/>
+									</div>
+									<div>
+										<img
+											src="https://b.zmtcdn.com/data/pictures/chains/1/47211/c9996dd70c88230268cb00d20a92b7cf_o2_featured_v2.jpg?output-format=webp"
+											alt=""
+										/>
+									</div>
+									<div>
+										<img
+											src="https://b.zmtcdn.com/data/pictures/2/19355142/291a09be1296fd18d07bd8a30c94369c_o2_featured_v2.jpg"
+											alt=""
+										/>
+									</div>
+									<div>
+										<img
+											src="https://b.zmtcdn.com/data/pictures/chains/0/39150/70871f7248e4d9eff0f5f9c87159eb6c_o2_featured_v2.jpg"
+											alt=""
+										/>
+									</div>
+									<div>
+										<img
+											src="./images/food-table.jpg"
+											alt=""
+										/>
+									</div>
+									<div>
+										<img
+											src="https://b.zmtcdn.com/data/pictures/4/19775844/27b4443f3be7cd8b270f29cd40467c37_o2_featured_v2.jpg"
+											alt=""
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</footer>
+					<footer class="copyright">
+						<div>
+							Copyright © 2021 .All rights reserved by Dyce &
+							Dyne.
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+
+		<script
+			type="text/javascript"
+			src="https://code.jquery.com/jquery-1.11.0.min.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+		></script>
+		<script src="scripts/app.js"></script>
+	</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+		/>
+		<title>Dyce&Dyne | Profile | <%= currentUser.name %></title>
+		<link rel="stylesheet" href="/css/profile.css" />
+		<link rel="icon" href="/images/logo.png" type="image/x-icon">
+	</head>
+
+	<body onload="checkCookie()">
+		<%- include('../partials/navbar.ejs') %>
+		<div class="container row d-flex justify-content-center m-auto">
+			<div class="col-lg-4 col-sm-6">
+				<div class="col-12">
+					<div class="card">
+						<img class="mt-2"" src="images/8puzzle.jpeg" />
+
+						<div class="card-body">
+							<h5 class="card-title">SlidingPuzzle</h5>
+							<p class="card-text">
+								Artfully headaches! The pieces are to be pushed
+								around over the board until the picture is
+								complete.
+							</p>
+							<a
+								onclick="setcookie(1)"
+								id="game1"
+								href="/games/8puzzle"
+								class="btn btn-primary primaryColor gameButton"
+								>Play!</a
+							>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 pt-3">
+					<div class="card">
+						<img class="mt-2"" src="/images/connect4.jpeg" />
+
+						<div class="card-body">
+							<h5 class="card-title">ConnectFour</h5>
+							<p class="card-text">
+								Take a break to play a game of Connect 4 and
+								earn tons of points!
+							</p>
+							<a 
+							onclick="setcookie(2)"
+								id="game2"
+								href="/games/connect4"
+								class="btn btn-primary primaryColor gameButton"
+								>Play!</a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8 col-sm-6">
+				<div class="container">
+					<div class="text-center mb-0">
+						<div class="col-lg-8 mx-auto">
+							<h1
+								class="display-4"
+								style="color: #ffb400; font-weight: 700"
+							>
+								<%= currentUser.name %>
+							</h1>
+							<p class="lead mb-0 ">
+								Wallet Points: <%= currentUser.wallet %> points
+							</p>
+							<p class="lead">
+								Total Orders: <%= currentUser.orders.length %>
+							</p>
+							<% if(orders.length==0) {%>
+								<p style="font-size: 24px;" class="lead mb-0 font-weight-bold">You have not placed any orders yet :(</p>
+								<p style="font-size: 20px;" class="lead mt-3 text-muted">To place an order, go the menu page and add anything you like to the cart.</p>
+								<a class="btn btn-outline-warning" href="/menu" >MENU</a>
+							<% } else {%>
+							<p class="lead mb-0">Order History:</p>
+							<% } %>
+						</div>
+					</div>
+
+					<div class="row mt-0">
+						<div class="col-lg-12 mx-auto">
+							<!-- Timeline -->
+							<ul class="timeline">
+								<% for(i=0; i< orders.length; i++) { items = []
+								for (j = 0; j < orders[i].items.length; j++) {
+								items.push(orders[i].items[j].title); }
+								itemstring = items.join(', '); %>
+								<a
+									style="text-decoration: none; color: black"
+									href="/orderconfirmed/<%= orders[i]._id %>"
+								>
+									<li
+										class="
+											timeline-item
+											bg-white
+											rounded
+											ml-3
+											p-4
+											shadow
+										"
+									>
+										<div class="timeline-arrow"></div>
+										<h3 class="h5 mb-0">
+											<% var date =
+											orders[i].date.getDate() %> <% var
+											month = orders[i].date.getMonth() +
+											1 %> <% var year =
+											orders[i].date.getFullYear().toString()
+											%> <% var d =
+											`${date}/${month}/${year}`%> <% var
+											time =
+											orders[i].date.toLocaleTimeString();
+											%>
+											<% var currentTime = orders[i].date; %>
+
+											<% var currentOffset = currentTime.getTimezoneOffset(); %>
+
+											<% var ISTOffset = 330; %>
+
+											<% var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000); %> 
+											<%= d %>,
+											<!-- <small><%= time %></small> -->
+											<small><%= ISTTime.toLocaleTimeString() %></small>
+										</h3>
+										<span class="small text-gray"
+											>Order total: INR <%=
+											orders[i].total %>
+										</span>
+										<p
+											class="
+												text-small
+												mt-2
+												font-weight-light
+											"
+										>
+											Order Summary: <%=itemstring %>
+										</p>
+									</li>
+								</a>
+								<% } %>
+							</ul>
+							<!-- End -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+			crossorigin="anonymous"
+		></script>
+				<script>
+            var username = <%- JSON.stringify(currentUser.username) %>
+			console.log(username);
+            function getCookie(cname) {
+              let name = cname + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(";");
+              for (let i = 0; i < ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == " ") {
+                      c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                      return c.substring(name.length, c.length);
+                  }
+              }
+              return "";
+          }
+            function checkCookie() {
+                let userG1 = getCookie(username + "GAME1");
+                if (userG1 != "" && userG1!=null && userG1 >=3) {
+                    var el = document.getElementById("game1");
+                    el.disabled=true;
+					el.classList.add("disabled");
+					el.href="#";
+                }
+                let userG2 = getCookie(username + "GAME2");
+                if (userG2 != ""  && userG2!=null && userG2 >= 3) {
+                    var el = document.getElementById("game2");
+                    el.disabled=true;
+					el.classList.add("disabled");
+					el.href="#";
+                }
+            }
+            function setcookie(gameNo) {
+                var cname = username + "GAME" + gameNo.toString();
+                console.log("hhh");
+                let user = getCookie(cname);
+                let value=parseInt(user[0]);
+                console.log(user);
+                if (user == "" || user==null) {
+                    console.log('yy');
+                    const d = new Date();
+                    d.setTime(d.getTime() + (24*60*60*1000));
+                    let expires = "expires=" + d.toGMTString();
+                    var cvalue = 1;
+                    document.cookie = cname + "=" + cvalue + expires+";" + expires + ";path=/";
+                } 
+                else if (value < 3)
+                {
+                    var expires=user.slice(1);
+                    console.log(expires);
+                    document.cookie = cname + "=" + (value+1).toString() + expires+ ";" + expires + ";path=/";
+                } 
+                else {
+                    console.log("ww")
+                    var el = document.getElementById("game" + gameNo.toString());
+                    el.disabled=true;
+					el.classList.add("disabled");
+					alert("Sorry ! You cannot play the game more than 3 times a day ! ")
+					el.href="#";
+                   
+                }
+            }
+            
+            
+        </script>
+	</body>
+</html>
