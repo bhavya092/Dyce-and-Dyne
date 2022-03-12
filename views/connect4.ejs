@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--  Meta  -->
+		<meta charset="UTF-8" />
+		<title>Dyce & Dyne | ConnectFour</title>
+		<link rel="icon" href="/images/logo.png" type="image/x-icon">
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+		/>
+
+		<!--  Styles  -->
+		<link
+			href="https://fonts.googleapis.com/css?family=Doppio+One"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="/css/connect4.css" />
+	</head>
+	<body>
+		<%- include('../partials/navbar.ejs') %>
+		<!-- Button trigger modal -->
+		<button
+			type="button"
+			class="btn btn-primary"
+			data-toggle="modal"
+			data-target="#exampleModalCenter"
+			id="winbutton"
+		>
+			Launch demo modal
+		</button>
+
+		<!-- Modal -->
+		<div
+			class="modal fade"
+			id="exampleModalCenter"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal-title">
+							Wuhoooooooooo!
+						</h5>
+
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<img
+							class="img-fluid"
+							src="https://thumbs.gfycat.com/KindRipeBluejay-max-1mb.gif"
+						/>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-dismiss="modal"
+							onclick="addWalletPoints(1)"
+						>
+							Save Points
+						</button>
+						<button
+							type="button"
+							id="addWalletPoints"
+							class="btn btn-primary"
+							onclick="addWalletPoints(2)"
+						>
+							Redeem Now !
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
+		<br />
+		<div class="row mr-0">
+			<div class="col-lg-12 d-flex justify-content-center">
+				<div class="row">
+					<div class="col-lg-4 d-flex justify-content-center">
+						<div class="sidebar">
+							<div class="panel dif">
+								<h2>Difficulty</h2>
+								<div class="dif-options">
+									<div>
+										<input
+											id="dif1"
+											type="radio"
+											name="dif-options"
+											value="1"
+										/>
+										<label for="dif1">1</label>
+									</div>
+									<div>
+										<input
+											id="dif2"
+											type="radio"
+											name="dif-options"
+											value="2"
+										/>
+										<label for="dif2">2</label>
+									</div>
+									<div>
+										<input
+											id="dif3"
+											type="radio"
+											name="dif-options"
+											value="3"
+											checked
+										/>
+										<label for="dif3">3</label>
+									</div>
+									<div>
+										<input
+											id="dif4"
+											type="radio"
+											name="dif-options"
+											value="4"
+										/>
+										<label for="dif4">4</label>
+									</div>
+									<div>
+										<input
+											id="dif5"
+											type="radio"
+											name="dif-options"
+											value="5"
+										/>
+										<label for="dif5">5</label>
+									</div>
+								</div>
+								<div class="start">
+									<button>Start Game</button>
+								</div>
+							</div>
+							<div class="panel info">
+								<h2></h2>
+								<div class="blurb"></div>
+								<div class="outlook"></div>
+								<div class="gameinfo">
+									<!-- Button trigger modal -->
+									<button
+										type="button"
+										class="btn btn-primary gamebutton"
+										data-toggle="modal"
+										data-target="#exampleModalLong"
+									>
+										How to Play
+									</button>
+
+									<!-- Modal -->
+									<div
+										class="modal fade"
+										id="exampleModalLong"
+										tabindex="-1"
+										role="dialog"
+										aria-labelledby="exampleModalLongTitle"
+										aria-hidden="true"
+									>
+										<div
+											class="modal-dialog"
+											role="document"
+										>
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5
+														class="modal-title"
+														id="exampleModalLongTitle"
+													>
+														ConnectFour
+													</h5>
+												</div>
+												<div class="modal-body">
+													ConnectFour Rules <br />1.
+													Point the cursor over the
+													row you wish to drop your
+													piece in. <br />2. Left
+													click to drop your piece
+													<br />3. When you can
+													connect four pieces
+													vertically, horizontally or
+													diagonally you win.
+													<br />
+													<br />
+													Each game you win against
+													our bot, awards you points.
+													Points are awarded as
+													follows:
+													<br />
+													Level 1: 20 points
+													<br />
+													Level 2: 40 points
+													<br />
+													Level 3: 60 points
+													<br />
+													Level 4: 80 points
+													<br />
+													Level 5: 100 points
+												</div>
+												<div class="modal-footer">
+													<button
+														type="button"
+														class="
+															btn btn-secondary
+														"
+														data-dismiss="modal"
+													>
+														Close
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8 d-flex justify-content-center">
+						<div class="board">
+							<div class="lit-columns">
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+							<div class="lit-cells"></div>
+							<div class="chips"></div>
+							<div class="click-columns">
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script>
+			document.getElementById("winbutton").classList.add("displaynone");
+		</script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="/scripts/connect4.js"></script>
+	</body>
+</html>

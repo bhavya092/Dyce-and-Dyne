@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;700&display=swap");
+
+aside {
+	margin: 0;
+	padding: 0;
+	/* font-family: 'Dosis', sans-serif; */
+	font-size: 1em;
+	width: 300px;
+	height: 100vh;
+	background: #ffffff;
+}
+
+aside .nav-link {
+	font-size: 1.30em;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+	
+}
+aside nav {
+	font-size: 1 rgb(255, 255, 255);
+	padding: 1em 0 1em 1em;
+}
+aside nav {
+	list-style: none;
+}
+aside nav a .nav-link {
+	/* font-weight:bold ; */
+	color: rgb(0, 0, 0);
+	position: relative;
+	text-decoration: none;
+	/* width:calc(100% - 1em); */
+	padding: 1em 0 1em 1em;
+}
+aside nav a.nav-link:hover {
+	color: rgba(255, 187, 0, 0.719);
+	border-radius: 0.5em 0em 0em 0.5em;
+	text-decoration: none;
+	border-right: 4px solid rgba(255, 187, 0, 0.719);
+	font-weight: bold;
+	box-shadow: 0px 1px 3px grey;
+}
+
+aside nav a.nav-link:hover {
+	
+	text-decoration: none;
+}
+
+.active {
+	color: rgba(255, 187, 0, 0.719);
+	border-radius: 0.5em 0em 0em 0.5em;
+	text-decoration: none;
+	border-right: 4px solid rgba(255, 187, 0, 0.719);
+	box-shadow: 0px 1px 3px grey;
+	font-weight: bold;
+}
+
+aside nav a {
+	color: inherit;
+	text-decoration: none;
+}
+span {
+	cursor: pointer;
+}
+
+input {
+	height: 2em;
+	width: 4em;
+	text-align: center;
+	font-size: 1em;
+	border: 1px solid #ddd;
+	display: inline-block;
+	vertical-align: middle;
+}

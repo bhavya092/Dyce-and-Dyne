@@ -14,10 +14,17 @@ const Razorpay = require("razorpay");
 const cors = require("cors");
 app.use(cors());
 
+const {isLoggedIn, isDeliveryAgentLoggedIn} = require('./middleware/authentication.js');
 
+
+const instance = new Razorpay({
+	key_id: process.env.KEY_ID,
+	key_secret: process.env.KEY_SECRET,
+});
 
 const User = require("./models/user");
-
+const FoodItem = require("./models/foodItem");
+const Order = require("./models/order");
 
 
 mongoose.connect( process.env.MONGO_URI,
@@ -66,7 +73,9 @@ app.use(function (req, res, next) {
 app.use(express.static(__dirname + "/public"));
 
 var userRouter = require('./routes/auth.routes');
-
+var cartRouter = require('./routes/cart.routes');
+var deliveryRouter = require('./routes/delivery.routes');
+var gamesRouter = require('./routes/games.routes');
 
 
 // HOME PAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,6 +118,207 @@ app.get("/", (req, res) => {
 	]
 	res.render("index",{topItems : recItems});
 });
+
+// MENU & CART ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//Renders the list of all menu items
+app.get("/menu", (req, res) => {
+	FoodItem.find(function (err, allItems) {
+		if (err) {
+			console.log(err);
+			res.redirect("/");
+		} else {
+			res.render("menu", { allItems: allItems });
+		}
+	});
+});
+
+app.use('/cart', cartRouter);
+app.use('/delivery', deliveryRouter);
+app.use('/games', gamesRouter);
+
+app.get("/profile", isLoggedIn, function (req, res) {
+	User.findById(req.user._id, function (err, foundUser) {
+		if (err) {
+			console.log(err);
+			return res.redirect("back");
+		} else {
+			var orders = foundUser.orders;
+			orders.sort(function (a, b) {
+				return new Date(b.date) - new Date(a.date);
+			});
+
+			res.render("profile", { orders: orders });
+		}
+	});
+});
+
+
+app.post("/addWalletPoints", isLoggedIn, function (req, res) {
+	User.findById(req.user._id, function (err, foundUser) {
+		if (err) {
+			console.log(err);
+			return res.redirect("back");
+		} else {
+			foundUser.wallet += req.body.points;
+			foundUser.cart.amountPayable = Math.max(
+				0,
+				foundUser.cart.total -
+					Math.floor(foundUser.wallet / 100),
+			);
+			foundUser.cart.discountApplied = Math.min(
+				foundUser.cart.total,
+				Math.floor(foundUser.wallet / 100),
+			);
+			foundUser.save();
+			res.redirect(req.body.game);
+		}
+	});
+});
+
+//Order food via COD
+app.get("/ordercod", isLoggedIn, function (req, res) {
+	cart = req.user.cart.foodItems.sort(function (a, b) {
+		var nameA = a.title.toUpperCase();
+		var nameB = b.title.toUpperCase();
+		if (nameA < nameB) {
+			return;
+		}
+		if (nameA > nameB) {
+			return 1;
+		}
+		return 0;
+	});
+	res.render("ordercod", {
+		items: cart,
+		total: req.user.cart.total,
+	});
+});
+
+app.get("/ordercard", isLoggedIn, function (req, res) {
+	cart = req.user.cart.foodItems.sort(function (a, b) {
+		var nameA = a.title.toUpperCase();
+		var nameB = b.title.toUpperCase();
+		if (nameA < nameB) {
+			return;
+		}
+		if (nameA > nameB) {
+			return 1;
+		}
+		return 0;
+	});
+	res.render("ordercard", {
+		items: cart,
+		total: req.user.cart.total,
+		key: process.env.KEY_ID,
+	});
+});
+
+//Razorpay integrations.
+app.post("/api/payment/order", (req, res) => {
+	params = req.body;
+	instance.orders
+		.create(params)
+		.then((data) => {
+			res.send({ sub: data, status: "success" });
+		})
+		.catch((error) => {
+			res.send({ sub: error, status: "failed" });
+		});
+});
+
+app.post("/api/payment/verify", (req, res) => {
+	body = req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+
+	var expectedSignature = crypto
+		.createHmac("sha256", process.env.KEY_SECRET)
+		.update(body.toString())
+		.digest("hex");
+	console.log("sig" + req.body.razorpay_signature);
+	console.log("sig" + expectedSignature);
+	var response = { status: "failure" };
+	if (expectedSignature === req.body.razorpay_signature)
+		response = { status: "success" };
+	res.send(response);
+});
+
+app.post("/afterOrderPlaced", (req, res) => {
+	if (req.isAuthenticated()) {
+		User.findById(req.user._id, (err, founduser) => {
+			if (err) console.log(err);
+			else {
+				var inputAddress = `${req.body.flatwing}\n${req.body.locality}\n${req.body.pincode}\n${req.body.city}`;
+				var new_order = new Order({
+					items: req.user.cart.foodItems,
+					total: req.user.cart.amountPayable,
+					user: {
+						id: req.user._id,
+						email: req.user.username,
+						name: req.body.name,
+						address: `${req.body.locality}, ${req.body.city}`,
+						fullAddress: inputAddress,
+					},
+					paymentMode: req.body.paymentMode,
+					isDelivered: false,
+					discountApplied: founduser.cart.discountApplied,
+					cartTotal: req.user.cart.total,
+				});
+				Order.create(new_order, function (err, order) {
+					if (err) {
+						console.log(err);
+					} else {
+						
+						var f = 0;
+						founduser.addresses.forEach((address) => {
+							if (address.fullAddress == inputAddress) {
+								
+								f = 1;
+							}
+						});
+						if (f == 0) {
+			
+							var addressObj = {
+								fullAddress: inputAddress,
+								flatwing: req.body.flatwing,
+								locality: req.body.locality,
+								pincode: req.body.pincode,
+								city: req.body.city,
+							};
+							founduser.addresses.push(addressObj);
+						}
+						founduser.orders.push(order);
+						founduser.wallet =
+							founduser.wallet -
+							founduser.cart.discountApplied * 100;
+						founduser.cart.foodItems = [];
+						founduser.cart.total = 0;
+						founduser.cart.amountPayable = 0;
+						founduser.cart.discountApplied = 0;
+						founduser.save();
+						console.log(new_order._id);
+						res.send({ status: "OK", orderid: new_order._id });
+					}
+				});
+			}
+		});
+	} else {
+		res.send({ error: "You need to be logged in first" });
+	}
+});
+
+//Show status of the order.
+app.get("/orderconfirmed/:orderID", isLoggedIn, (req, res) => {
+	Order.find({ _id: req.params.orderID }, (err, foundOrder) => {
+		if (err) console.log(err);
+		else {
+			console.log(foundOrder);
+			var id = foundOrder[0]._id.toString().substring(0, 8);
+			res.render("orderconfirmed", { order: foundOrder[0], orderid: id });
+		}
+	});
+});
+
+
 
 //-----------------------------AUTH--------------------------------------
 app.use('/auth', userRouter);

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+		<title>Dyce&Dyne | Order Details</title>
+		<link rel="icon" href="/images/logo.png" type="image/x-icon" />
+		<style>
+			.form-group input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+				border-radius: 0;
+				margin-bottom: 0.5em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<br />
+		<div class="container pl-5" style="font-size: 22px">
+			<div class="ml-2 my-3">
+				<a
+					href="/cart"
+					style="font-size: 18px; text-decoration: none; color: gray"
+				>
+					&#8592; Go Back to Cart</a
+				>
+			</div>
+		</div>
+		<div class="container mx-auto px-auto" style="text-align: center">
+			<div style="font-size: x-large; color: rgb(255, 187, 0)">
+				Enter Delivery Details
+			</div>
+			<br /><br />
+		</div>
+		<div class="container-md mx-auto">
+			<div class="row mx-auto">
+				<form
+					action="/ordercard"
+					class="needs-validation mx-auto"
+					method="post"
+				>
+					<div class="form-group has-validation my-2">
+						<label for="exampleFormControlInput1">Name *</label>
+						<input
+							placeholder="Your name "
+							type="text"
+							name="name"
+							class="form-control"
+							required
+							value="<%= currentUser.name %>"
+							id="nameinput"
+						/>
+					</div>
+
+					<div class="form-group has-validation my-2">
+						<div class="form-group">
+							<label for="exampleInputEmail1"
+								><small>
+									Your Flat, Wing No./Building Name, Society
+									Name *</small
+								></label
+							>
+							<input
+								required
+								type="text"
+								class="form-control"
+								placeholder="303, B wing, Jai Ambe CHS"
+								name="flatwing"
+								required
+								value="<%= currentUser.addresses[0].flatwing %>"
+								id="flatwingInput"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1"
+								><small
+									>Your Street Name, Locality, Area *</small
+								></label
+							>
+							<input
+								required
+								type="text"
+								class="form-control"
+								placeholder="LBS Marg, Ghatkopar West"
+								name="locality"
+								required
+								value="<%= currentUser.addresses[0].locality %>"
+								id="localityInput"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="exampleInputEmail1"
+								><small>Your Pincode *</small></label
+							>
+							<input
+								required
+								type="text"
+								class="form-control"
+								placeholder="400099"
+								name="pincode"
+								required
+								value="<%= currentUser.addresses[0].pincode %>"
+								id="pincodeInput"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="exampleInputEmail1"
+								><small>City *</small></label
+							>
+							<input
+								required
+								type="text"
+								class="form-control"
+								placeholder="Mumbai"
+								name="city"
+								required
+								value="<%= currentUser.addresses[0].city %>"
+								id="cityInput"
+							/>
+						</div>
+					</div>
+
+					<small class="text-muted">
+						<script src="https://cdn.lordicon.com//libs/frhvbuzj/lord-icon-2.0.2.js"></script>
+						<lord-icon
+							src="https://cdn.lordicon.com//uetqnvvg.json"
+							trigger="loop"
+							colors="primary:#121331,secondary:#eeca66"
+							style="width: 32px; height: 32px"
+						>
+						</lord-icon>
+						We ensure a fast and safe delivery in 45-50 minutes
+						max.</small
+					>
+					<hr />
+
+					<div
+						class="container-fluid mx-auto px-auto mt-4"
+						style="text-align: center; max-width: 800px"
+					>
+						<div
+							style="
+								font-size: x-large;
+								color: rgb(255, 187, 0);
+								margin-top: 2em;
+							"
+						>
+							Confirmed Cart Details
+						</div>
+						<br />
+						<hr />
+						<div class="">
+							<ul class="list-group list-group-flush">
+								<% for(i=0; i< items.length; i++) {%>
+								<li class="list-group-item">
+									<div
+										class="row justify-content-between"
+										style="text-align: start"
+									>
+										<div class="col-4">
+											<%= items[i].title %>
+										</div>
+										<div
+											class="col-1"
+											style="
+												background-image: url('<%= items[i].image %>');
+												background-position: center;
+												text-align: center;
+												height: 60px;
+												background-repeat: no-repeat;
+												background-size: contain;
+											"
+										></div>
+										<!-- <div class="col-1"></div> -->
+										<div class="col-3 col-md-2">
+											Rs.<%= items[i].cost %>
+										</div>
+										<div class="col-2 col-md-2">
+											&nbsp; x<%= items[i].qty %>
+										</div>
+										<div class="col-2 col-md-2">
+											<%= items[i].qty*items[i].cost %>
+										</div>
+									</div>
+								</li>
+								<% } %>
+							</ul>
+							<div class="text-center">
+								<b> Cart Subtotal</b> : <%= total %>.00
+								<div>
+									<b> Discount Applied </b> : <%=
+									currentUser.cart.discountApplied %> ( <%=
+									currentUser.cart.discountApplied * 100 %>
+									Points )
+								</div>
+								<div>
+									<b> Wallet Balance </b> : <%=
+									currentUser.wallet -
+									currentUser.cart.discountApplied * 100 %>
+									Points
+								</div>
+								<div>
+									<b> Grand Subtotal </b> : Rs. <%=
+									currentUser.cart.amountPayable %>.00
+								</div>
+							</div>
+						</div>
+						<br />
+						<div class="form-check my-2">
+							<input
+								required
+								class="form-check-input"
+								type="checkbox"
+								value=""
+								id="defaultCheck1"
+							/>
+							<label class="form-check-label" for="defaultCheck1">
+								I confirm my Order Details and I will be solely
+								resposnsible for the details and items in this
+								order.
+								<hr />
+								Payment Mode: Online
+							</label>
+						</div>
+						<button
+							type="button"
+							id="order-button1"
+							class="
+								my-3
+								mb-5
+								btn btn-outline-success btn-lg
+								rounded-2
+							"
+						>
+							Pay Rs. <%= currentUser.cart.amountPayable %>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			document.getElementById("order-button1").onclick = function (e) {
+				var url = "/api/payment/order";
+				var amt = "<%= currentUser.cart.amountPayable %>";
+				var params = {
+					amount: Number(amt) * 100,
+					currency: "INR",
+					receipt: "Dyce&Dyne",
+					payment_capture: "1",
+				};
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.onreadystatechange = function (res) {
+					if (xmlHttp.readyState === 4) {
+						res = JSON.parse(xmlHttp.responseText);
+						func(res.sub.id);
+					}
+				};
+				xmlHttp.open("POST", url, true);
+				xmlHttp.setRequestHeader("Content-type", "application/json");
+				xmlHttp.send(JSON.stringify(params));
+			};
+		</script>
+		<!-- <button id="rzp-button1">Checkout</button> -->
+		<div id="paymentDetails"></div>
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+		<script>
+			function func(id) {
+				console.log("inside onchange");
+				console.log(id);
+				var options = {
+					key: "<%= key %>",
+					currency: "INR",
+					name: "Dyce&Dyne",
+					description: "Order Payment",
+					order_id: id,
+					handler: function (response) {
+						func2(
+							response.razorpay_order_id,
+							response.razorpay_payment_id,
+							response.razorpay_signature,
+						);
+					},
+					theme: {
+						color: "#F0B651",
+					},
+				};
+				var rzp1 = new Razorpay(options);
+				rzp1.open();
+				//e.preventDefault();
+			}
+
+			function func2(order_id, payment_id, sig_id) {
+				var url = "/api/payment/verify";
+				var params = {
+					razorpay_order_id: order_id,
+					razorpay_payment_id: payment_id,
+					razorpay_signature: sig_id,
+				};
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.onreadystatechange = function (res) {
+					if (xmlHttp.readyState === 4) {
+						// alert(xmlHttp.responseText);
+						var obj = {
+							name: document.getElementById("nameinput").value,
+							flatwing:
+								document.getElementById("flatwingInput").value,
+							locality:
+								document.getElementById("localityInput").value,
+							pincode:
+								document.getElementById("pincodeInput").value,
+							city: document.getElementById("cityInput").value,
+							paymentMode: "Online",
+						};
+						// axios.post('', article)
+						// .then(response => element.innerHTML = response.data.id )
+						// .catch(error => {
+						//     element.parentElement.innerHTML = `Error: ${error.message}`;
+						//     console.error('There was an error!', error);
+						// });
+						console.log(obj);
+						axios.post("/afterOrderPlaced", obj).then(
+							(response) => {
+								console.log(response);
+								window.location.href = `/orderconfirmed/${response.data.orderid}`;
+							},
+							(error) => {
+								console.log(error);
+								window.location.href = "/auth/login";
+							},
+						);
+					}
+				};
+				xmlHttp.open("POST", url, true); // false for synchronous request
+				xmlHttp.setRequestHeader("Content-type", "application/json");
+				xmlHttp.send(JSON.stringify(params));
+			}
+		</script>
+	</body>
+</html>

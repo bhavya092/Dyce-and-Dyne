@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+		/>
+		<title>Dyce&Dyne | Cart | <%= currentUser.name %></title>
+		<link rel="icon" href="/images/logo.png" type="image/x-icon" />
+	</head>
+
+	<body>
+		<br />
+		<div class="container pl-5" style="font-size: 22px">
+			<div class="ml-2 my-3">
+				<a
+					href="/menu"
+					style="font-size: 18px; text-decoration: none; color: gray"
+				>
+					&#8592; Go Back to Menu</a
+				>
+			</div>
+		</div>
+
+		<% if(items.length == 0) { %>
+		<div class="container mx-auto px-auto" style="text-align: center">
+			<div style="font-size: x-large; color: orangered">
+				Your cart is empty
+			</div>
+			<small>Go to Menu and add something you wish to order.</small>
+			<br /><br />
+			<div class="container flash-container">
+				<% if(error && error.length > 0 ) { %>
+				<div class="row d-flex justify-content-between m-2">
+					<div
+						class="
+							alert alert-danger alert-dismissible
+							fade
+							show
+							text-center
+						"
+						role="alert"
+						style="width: 100%"
+					>
+						<%= error %>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+				<% } %> <% if(success && success.length > 0 ) { %>
+				<div class="row d-flex justify-content-between m-2">
+					<div
+						class="
+							alert alert-success alert-dismissible
+							fade
+							show
+							text-center
+						"
+						role="alert"
+						style="width: 100%"
+					>
+						<%= success %>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+				<% } %>
+			</div>
+			<div class="my-4">
+				<a i class="btn btn-sm btn-outline-success" href="/menu"
+					>MENU</a
+				>
+			</div>
+		</div>
+		<% } else { %>
+		<div
+			class="container mx-auto px-auto"
+			style="text-align: center; max-width: 800px"
+		>
+			<div style="font-size: 2em; font-weight: bold; color: #ffb400">
+				Your cart
+			</div>
+			<small>Our Delicacies at your doorstep!</small>
+			<br />
+			<hr />
+			<br />
+			<div class="container flash-container">
+				<% if(error && error.length > 0 ) { %>
+				<div class="row d-flex justify-content-between m-2">
+					<div
+						class="
+							alert alert-danger alert-dismissible
+							fade
+							show
+							text-center
+						"
+						role="alert"
+						style="width: 100%"
+					>
+						<%= error %>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+				<% } %> <% if(success && success.length > 0 ) { %>
+				<div class="row d-flex justify-content-between m-2">
+					<div
+						class="
+							alert alert-success alert-dismissible
+							fade
+							show
+							text-center
+						"
+						role="alert"
+						style="width: 100%"
+					>
+						<%= success %>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+				<% } %>
+			</div>
+
+			<div class="mt-0">
+				<ul class="list-group list-group-flush mt-0">
+					<% for(i=0; i< items.length; i++) {%>
+					<li class="list-group-item">
+						<div
+							class="row"
+							style="
+								text-align: start;
+								align-items: center;
+								justify-content: center;
+							"
+						>
+							<div class="col-4"><%= items[i].title %></div>
+							<div
+								class="col-1 d-none d-md-block"
+								style="
+									background-image: url('<%= items[i].image %>');
+									background-position: center;
+									text-align: center;
+									height: 60px;
+									background-repeat: no-repeat;
+									background-size: contain;
+								"
+							></div>
+							<!-- <div class="col-1"></div> -->
+							<div class="col-3 col-md-2">
+								Rs.<%= items[i].cost %>
+							</div>
+							<div class="col-2 col-md-2">
+								&nbsp; x<%= items[i].qty %>
+							</div>
+							<div class="col-2 col-md-2">
+								<%= items[i].qty*items[i].cost %>
+							</div>
+							<div class="col-1 p-0 p-md-2">
+								<form
+									action="/cart/<%= items[i]._id %>?_method=DELETE"
+									method="post"
+								>
+									<button
+										type="submit"
+										class="btn"
+										style="
+											color: rgb(160, 154, 154);
+											text-align: center;
+											justify-content: center;
+											align-items: center;
+										"
+									>
+										<i class="fas fa-times"></i>
+									</button>
+								</form>
+							</div>
+						</div>
+					</li>
+					<% } %>
+				</ul>
+				<div
+					class="text-center mt-4"
+					style="text-align: end; justify-content: end"
+				>
+					<b> Cart Subtotal</b> : <%= total %>.00
+					<div>
+						<b> Discount Applied </b> : <%=
+						discountApplied %> ( <%=
+						discountApplied * 100 %> Points )
+					</div>
+					<div>
+						<b> Wallet Balance </b> : <%= wallet -
+						(discountApplied * 100) %> Points
+					</div>
+					<div>
+						<b> Grand Subtotal </b> : Rs. <%=
+						amountPayable %>.00
+					</div>
+				</div>
+			</div>
+			<br />
+			<a
+				href="/ordercod"
+				class="my-3 btn btn-outline-success btn-lg rounded-2"
+			>
+				<b>Cash on Delivery </b>
+				<img
+					style="height: 1.75em"
+					src="https://cdna.artstation.com/p/assets/images/images/029/397/134/original/bryan-taylor-skull-coin.gif?1597405900"
+				/>
+			</a>
+
+			<a
+				href="/ordercard"
+				class="my-3 btn btn-outline-success btn-lg rounded-2"
+			>
+				<b>Online Payment</b>
+				<img
+					style="height: 1.75em"
+					src="https://cdna.artstation.com/p/assets/images/images/029/397/134/original/bryan-taylor-skull-coin.gif?1597405900"
+				/>
+			</a>
+		</div>
+
+		<% } %>
+
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

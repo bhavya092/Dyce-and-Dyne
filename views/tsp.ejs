@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous"
+		/>
+
+		<title>Dyce&Dyne | Delivery Route</title>
+		<link rel="icon" href="/images/logo.png" type="image/x-icon">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Import Mapbox GL JS -->
+		<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+		<link
+			href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css"
+			rel="stylesheet"
+		/>
+		
+
+		<!-- Import Mapbox GL Directions -->
+		<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+			type="text/css"
+		/>
+
+		<!-- Import Turf & Polyline -->
+		<script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
+
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: "Open Sans", sans-serif;
+			}
+
+			#map {
+				position: absolute;
+				top: 120;
+				
+				width: 85%;
+				height: 70%;
+				margin: auto;
+				align-self: center;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+			}
+
+			.card {
+				font-size: small;
+				border-bottom: solid #d3d3d3 2px;
+				margin-bottom: 6px;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			}
+
+			.card-header {
+				font-weight: bold;
+				padding: 6px;
+			}
+
+			.no-route {
+				background-color: #d3d3d3;
+				color: #f00;
+			}
+
+			.obstacle-found {
+				background-color: #d3d3d3;
+				color: #fff;
+			}
+
+			.route-found {
+				background-color: #33a532;
+				color: #fff;
+			}
+
+			.card-details {
+				padding: 3px 6px;
+			}
+			.truck {
+				width: 20px;
+				height: 20px;
+				border: 3px solid #0000;
+				border-radius: 50%;
+				background: rgb(62, 255, 62);
+				pointer-events: none;
+			}
+			@import url("https://fonts.googleapis.com/css?family=Josefin+Sans|Nunito:300,400,700&amp;display=swap");
+:root {
+  --member-animation: all 0.35s ease-in-out;
+  --font-family-1: "Josefin Sans", sans-serif;
+  --font-family-2: Nunito, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* TIMELINE */
+#timeline-container {
+  overflow: auto;
+  padding: 50px 0;
+}
+#timeline-container .inner-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#timeline-container .inner-container .heading {
+  text-align: center;
+  font-family: var(--font-family-1);
+  font-weight: 700;
+  font-size: 3rem;
+  color: rgb(10, 10, 10);
+  margin-top: 0;
+}
+
+.timeline {
+  margin: 0 auto;
+  position: relative;
+  left: 120px;
+  width: 80%;
+  max-width: 900px;
+  margin-top: 16px;
+  margin-left: 5%;
+}
+
+.timeline-item {
+  color: #000000;
+  font-family: var(--font-family-2);
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  border-left: 4px solid rgb(255, 174, 0);
+  border-bottom: 1px solid rgb(255, 174, 0);
+  position: relative;
+  list-style-type: none;
+  --item-width: calc(100%);
+}
+.timeline-item::after {
+  content: attr(data-date);
+  position: absolute;
+  right: calc(var(--item-width) + 40px);
+  top: 16px;
+  float: right;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.timeline-item::before {
+  content: "";
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  background-color: rgb(7, 7, 7);
+  position: absolute;
+  left: -10px;
+  top: 21px;
+}
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .timeline {
+    margin: 0 auto;
+    position: relative;
+    left: 85px;
+  }
+  .timeline .timeline-item {
+    font-size: 1.1rem;
+  }
+  .timeline .timeline-item::after {
+    right: calc(var(--item-width) + 30px);
+  }
+}
+@media only screen and (max-width: 800px) {
+  .timeline-item {
+    padding: 1rem 1.5rem 1rem 0.5rem;
+  }
+  .timeline-item::after {
+    right: calc(var(--item-width) + 20px);
+  }
+}
+/* TIMELINE end */
+		</style>
+	</head>
+
+	<body>
+		<div class="container" >
+			<br />
+			<div
+				class="text-center"
+				style="
+					background-color: rgba(255, 174, 0, 0.75);
+					padding: 5px;
+					border-radius: 8px;
+					margin-bottom: 5px;
+					box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+				"
+			>
+				DEVLIVERY ID: 548953895
+			</div>
+			<div>
+				Your Route:
+				<br />
+				<small style="font-weight: bold">Dyce and Dyne ~~> </small>
+				<% order.forEach(location=>{ %>
+				<small style="font-weight: bold"><%= location %> <~~> </small>
+				<% }) %>
+				<small style="font-weight: bold">Dyce and Dyne.</small>
+			</div>
+			
+			<br>	
+		</div>
+
+		<div class="container">
+			<div id="map" class="row"></div>
+		</div>
+            
+		<div class="container" style="margin-top:500px">
+			<div id="timeline-container">
+				<div class="inner-container">
+				  <h4 class="heading">Schedule</h4>
+				  <hr>	
+				  <ul class="timeline">
+					  <% schedule.forEach((x)=>{ %>
+						<li class="timeline-item" data-date="<%= x._id.toString().substring(10) %>">
+							<div class="container p-3" style="box-shadow:0px 2px 1px grey; border-radius:10px; font-size:12px; text-align:start">
+								<h5> Order for  <%= x.user.name %></h5>
+								<b>Drop Location</b>:<%= x.user.fullAddress %>
+								<br>
+								<b>Amount: </b> Rs.<%= x.total %>
+								<br>
+								<b>Status: </b> 
+                            
+                                <button onclick="changeStatus('<%=  x._id.toString() %>')" id="<%= x._id %>a" class="btn btn-sm  btn-outline-success btn-md">Delivering..</button>
+                            
+							</div>
+						</li> 
+					  <% }) %>
+					
+				  </ul>
+				</div>
+			  </div>
+			  <a class="btn btn-info" href="/delivery">DELIVERY COMPLETE</a>	
+		</div>
+		<script
+			src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <!-- Change status from not delivered-> delivered. -->
+		<script>
+            function changeStatus(id)
+            {
+
+                console.log(id);
+                console.log("HELLO")
+                 axios.get('/delivery/changeDeliveryStatus/'+id)
+                    .then((resp)=>{
+                    if(resp.data.status == "OK"){
+                        var el=document.getElementById(id+'a');
+                        el.innerText="Delivered"
+                        el.classList.add("btn-success");
+                        el.classList.add("disabled");
+                        el.classList.remove("btn-outline-success");
+                        
+                    }
+                },
+                 (error) => {
+                console.log(error);
+                alert("SOME ERROR OCCURED!")
+              }
+            );
+            }
+        </script>
+
+		<script>
+			// Add your access token
+			mapboxgl.accessToken ="pk.eyJ1IjoiYmhhdnlhMDkyIiwiYSI6ImNrb2xlNWUzbjFiNjAydnE0bXpsbG13MGcifQ.jik4Q9NnhmABl1qhYKt7ZA";
+			const DDL=[72.84167,19.21333];
+
+			// Initialize a map
+			const map = new mapboxgl.Map({
+			    container: "map", // container id
+			    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+			    center: DDL, // starting position
+			    zoom: 12, // starting zoom
+
+			});
+			//Directions API
+			const directions = new MapboxDirections({
+			    accessToken: mapboxgl.accessToken,
+			    unit: "metric",
+			    steps: true,
+			    geometries: "polyline",
+			    alternatives: true,
+			    controls: { instructions: true, profileSwitcher: false },
+			    congestion: true,
+			    voice_instructions:true,
+
+			});
+			map.addControl(directions, 'top-right');
+
+
+
+			map.on("load", async () => {
+			    var address=<%-JSON.stringify(order)%>;
+			    var coordinates=<%-JSON.stringify(cords)%>;
+			    const DDL=[72.84167,19.21333];
+			    console.log(coordinates);
+			    const lastAtRestaurant = 0;
+			    const pointHopper = {};
+
+			    const warehouse = turf.featureCollection([turf.multiPoint(coordinates)]);
+			    const dropoffs = turf.featureCollection([]);
+			    const nothing = turf.featureCollection([]);
+
+			    for(var i=0;i<coordinates.length;i++)
+			    {
+			        const el = document.createElement('div');
+			        el.className = 'marker';
+
+			                    new mapboxgl.Marker({color:'#ff0000'})
+			                    .setLngLat(coordinates[i])
+			                    .setPopup(
+			                    new mapboxgl.Popup({ offset: 25 }) // add popups
+			                        .setHTML(
+			                        `<h3>${i+2}</h3><p>${address[i]}</p>`
+			                        )
+			                    )
+			                    .addTo(map);
+			    }
+			    const el = document.createElement('div');
+			    el.className = 'marker';
+
+			    new mapboxgl.Marker().setLngLat(DDL).setPopup
+			    (
+			        new mapboxgl.Popup({ offset: 25 }).setHTML(
+			                `<h3>1</h3><p>DYCE AND DYNE</p>`
+			        )
+			    ).addTo(map);
+
+
+			    map.addLayer({
+			        id: "warehouse",
+			        type: "circle",
+			        source: {
+			            data: warehouse,
+			            type: "geojson",
+			        },
+
+			    });
+			    map.addLayer({
+			        id: "warehouse-symbol",
+			        type: "symbol",
+			        source: {
+			            data: warehouse,
+			            type: "geojson",
+			        },
+
+			    });
+			    map.addSource("route", {
+			        type: "geojson",
+			        data: nothing,
+			    });
+
+			    map.addLayer(
+			        {
+			            id: "routeline-active",
+			            type: "line",
+			            source: "route",
+			            layout: {
+			                "line-join": "round",
+			                "line-cap": "round",
+			            },
+			            paint: {
+			                "line-color": "#3887be",
+			                "line-width": ["interpolate", ["linear"], ["zoom"], 12, 3, 22, 12],
+			            },
+			        },
+			        "natural-line-label"
+			    );
+
+			    map.addLayer(
+			        {
+			            id: "routearrows",
+			            type: "symbol",
+			            source: "route",
+			            layout: {
+			                "symbol-placement": "line",
+			                "text-field": "▶",
+			                "text-size": ["interpolate", ["linear"], ["zoom"], 12, 24, 22, 60],
+			                "symbol-spacing": [
+			                    "interpolate",
+			                    ["linear"],
+			                    ["zoom"],
+			                    12,
+			                    30,
+			                    22,
+			                    160,
+			                ],
+			                "text-keep-upright": false,
+			            },
+			            paint: {
+			                "text-color": "#3887be",
+			                "text-halo-color": "hsl(55, 11%, 96%)",
+			                "text-halo-width": 1,
+			            },
+			        },
+			        "natural-line-label"
+			    );
+
+			    newDropoff();
+			});
+
+
+			async function newDropoff() {
+			    const query = await fetch(assembleQueryURL(), { method: "GET" });
+			    const { code, message, trips, waypoints } = await query.json();
+			    if (code !== "Ok") {
+			        const handleMessage =
+			            code === "InvalidInput"
+			                ? "Refresh to start a new route. For more information: https://docs.mapbox.com/api/navigation/optimization/#optimization-api-errors"
+			                : "Try a different point.";
+			        alert(`${code} - ${message}\n\n${handleMessage}`);
+			        // Remove invalid point
+			        dropoffs.features.pop();
+			        delete pointHopper[pt.properties.key];
+			        return;
+			    }
+
+			    // Create a GeoJSON feature collection
+			    const routeGeoJSON = turf.featureCollection([turf.feature(trips[0].geometry)]);
+			    map.getSource("route").setData(routeGeoJSON);
+			}
+
+
+			function assembleQueryURL() {
+			    var coordinates=<%-JSON.stringify(cords)%>;
+			    const allCoordinates = [DDL,...coordinates, DDL];
+			    const distributions=[]
+
+			    console.log(
+			        `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${allCoordinates.join(
+			            ";"
+			        )}?distributions=${distributions.join(
+			            ";"
+			        )}&overview=full&steps=true&geometries=geojson&source=first&access_token=${
+			            mapboxgl.accessToken
+			        }`
+			    );
+
+			    return `https://api.mapbox.com/optimized-trips/v1/mapbox/driving-traffic/${allCoordinates.join(
+			        ";"
+			    )}?distributions=${distributions.join(
+			        ";"
+			    )}&overview=full&steps=true&geometries=geojson&source=first&access_token=${
+			        mapboxgl.accessToken
+			    }`;
+			}
+		</script>
+	</body>
+</html>

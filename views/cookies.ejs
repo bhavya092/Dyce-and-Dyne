@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <!-- Bootstrap CSS -->
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+
+        <title>Hello, world!</title>
+    </head>
+    <body onload="checkCookie()" >
+        <h1>Hello, world!</h1>
+        <button id="game1" onclick="setcookie(1)">PLAY 1</button>
+        <br />
+        <button id="game2" onclick="setcookie(2)" >PLAY 2</button>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            var username = "<%= currentUser.username %>";
+            function getCookie(cname) {
+              let name = cname + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(";");
+              for (let i = 0; i < ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == " ") {
+                      c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                      return c.substring(name.length, c.length);
+                  }
+              }
+              return "";
+          }
+            function checkCookie() {
+                let userG1 = getCookie(username + "GAME1");
+                if (userG1 != "" && userG1!=null && userG1 >= 9) {
+                    var el = document.getElementById("game1");
+                    el.disabled=true;
+                }
+                let userG2 = getCookie(username + "GAME2");
+                if (userG2 != ""  && userG2!=null && userG2 >= 9) {
+                    var el = document.getElementById("game2");
+                    el.disabled=true;
+                }
+            }
+            function setcookie(gameNo) {
+                var cname = username + "GAME" + gameNo.toString();
+                let user = getCookie(cname);
+                let value=parseInt(user[0]);
+                if (user == "" || user==null) {
+                    const d = new Date();
+                    d.setTime(d.getTime() + (24*60*60*1000));
+                    let expires = "expires=" + d.toGMTString();
+                    var cvalue = 1;
+                    document.cookie = cname + "=" + cvalue + expires+";" + expires + ";path=/";
+                } 
+                else if (value < 9)
+                {
+                    var expires=user.slice(1);
+                    console.log(expires);
+                    document.cookie = cname + "=" + (value+1).toString() + expires+ ";" + expires + ";path=/";
+                } 
+                else {
+                    var el = document.getElementById("game" + gameNo.toString());
+                    el.disabled=true;
+                   
+                }
+            }
+                
+        </script>
+        
+    </body>
+</html>

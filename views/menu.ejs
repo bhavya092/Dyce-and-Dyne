@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="icon" href="/images/Aid logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/stylesheets/home.css"> -->
+    <link rel="stylesheet" href="/css/navbar.css">
+        <link rel="stylesheet" href="/css/menu.css">
+        <link rel="icon" href="/images/logo.png" type="image/x-icon">
+        <title>Dyce&Dyne | Menu</title>
+<style>
+    html{
+        scroll-behavior: smooth;
+    }
+    body{
+        position: relative;
+    }
+</style>
+</head>
+
+<body>
+    <nav  id="navbar" class="navbar navbar-expand-lg navbar-light" style="box-shadow:0px 3px 4px grey;">
+	  <br />
+  <div class="container">
+    <a
+      class="navbar-brand link-navbar "
+      href="/"
+      style="font-weight: 900; font-size: xx-large; color: white"
+      ><img
+        height="60"
+        src="https://i.ibb.co/4myjK7k/Screenshot-450.png"
+        alt=""
+    /></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link link-navbar" href="/"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-navbar" href="/menu">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-navbar" href="/#aboutus">About Us</a>
+        </li>
+		<li class="nav-item">
+          <a class="nav-link link-navbar" href="/profile">My Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-navbar" href="/games">Games</a>
+        </li>
+        <% if(!currentUser) {%>
+        <li class="nav-item">
+          <a class="nav-link link-navbar" href="/auth/login">Login</a>
+        </li>
+        <% } else { %>
+			<li class="nav-item">
+          <a class="nav-link link-navbar" href="/cart"> Cart</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle link-navbar"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i> <%= currentUser.name %> </i>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item link-navbar" href="/profile">Profile</a>
+            <a class="dropdown-item link-navbar" href="/auth/logout">Logout</a>
+          </div>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <title>Dyce&Dyne | Menu</title>
+    <div class=" container flash-container fixed-top">
+        <% if(error && error.length> 0 ) { %>
+            <div class="row d-flex justify-content-between m-2">
+                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"
+                    style="width: 100%;">
+                    <%= error %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+            </div>
+            <% } %>
+                <% if(success && success.length> 0 ) { %>
+                    <div class="row d-flex justify-content-between m-2">
+                        <div class="alert alert-success alert-dismissible fade show text-center" role="alert"
+                            style="width: 100%;">
+                            <%= success %>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                    </div>
+                    <% } %>
+    </div>
+     <div class="row mr-0">
+        <div class="d-none d-lg-block col-lg-3">
+            <aside  class="sticky-top" >
+              <% if(currentUser) {%>
+                <div class="mt-3">
+                  <div class="row d-flex justify-content-center mt-3 pt-4">
+                    <a href="/cart" class="btn btn-outline-warning " >GO TO CART</a>
+  
+                  </div>
+
+                </div> 
+              <% } %>
+
+            <nav id="menu-sidebar">
+                <!-- <ul> -->
+                <a class="nav-link" href="#starters">Starters</a>
+                <a class="nav-link" href="#sandwich">Sandwiches</a>
+                <a class="nav-link" href="#PavBhaji">Pav Bhaji</a>
+                <a class="nav-link" href="#Italian">Italian</a>
+                <a class="nav-link" href="#Continental">Continental</a>
+                <a class="nav-link" href="#Beverages">Beverages</a>
+                <a class="nav-link" href="#Desserts">Dessert</a>
+                
+                <!-- </ul> -->
+            </nav>
+            </aside>
+        </div>
+        <div class="col-lg-9 d-flex justify-content-center">
+            <div data-spy="scroll" data-target="#menu-sidebar" data-offset="0">
+                <% categories = ['starters', 'sandwich','PavBhaji','Italian','Continental','Beverages','Desserts'] %>
+                <% categories.forEach(category => { %>
+                    <div id="<%= category %>" class="my-5 " >
+                        <div class="h2 text-left sticky-top bg-white p-3"><%= category.charAt(0).toUpperCase() + category.slice(1); %></div>
+                        <hr>
+                        <div class="row mx-3 d-flex justify-content-center">
+                        <% for(var i = 0;i<allItems.length;i++){ %>
+                        <% if(allItems[i].category==category) { %>
+                                <div class="d-flex justify-content-center col-12 ">
+                                    <div class="card mb-3 border-0" style="width: inherit; height: 180px; ">
+                                        <div class="row no-gutters" style="height: inherit;" >
+                                        <div class="col-4 col-lg-2 d-flex align-items-center justify-content-center" style="height:inherit">
+                                            <img src="<%=allItems[i].image %>" style="height:150px; width:150px; " class="card-img img-fluid rounded-lg" alt="...">
+                                        </div>
+                                        <div class="col-8 col-lg-8">
+                                            <div class="card-body">
+                                            <div class="row no-gutters">
+                                                <div class="col-sm-7 col-lg-9">
+                                                    <h5 class="card-title" style="font-size: 1.25em;"><%= allItems[i].title %></h5>
+                                                </div>
+                                                <% if(currentUser) { %>
+                                                    <% var q = 0 %>
+                                                    <% if(currentUser.cart.foodItems.length > 0 ) {%>
+                                                        <% currentUser.cart.foodItems.forEach(item => { %>
+                                                            <% if(item._id.toString() == allItems[i]._id.toString() ) { %>
+                                                                <% q = item.qty %>
+                                                            <% } %>
+                                                        <% }) %>
+                                                        
+                                                        <% if(q == 0)  {%>
+                                                            <div class="col-sm-5 col-lg-3">
+                                                                <form action="/cart/<%= allItems[i]._id.toString() %>" method="post">
+                                                                    <button type="submit" class="btn btn-outline-warning rounded-lg ">Add to cart</button>
+                                                                </form>
+                                                            </div>
+                                                        <% } else { %>
+                                                            
+                                                        <div class="col-sm-5 col-lg-3 d-flex">
+                                                            <form action="/cart/decrement/<%= allItems[i]._id %>?_method=DELETE" method="post">
+                                                                <button type="submit" style="	height: 2em;width: 2em;background: #f2f2f2;border: 1px solid #ddd;text-align: center;color: black;font-weight: bolder;font-size: 1em;padding: auto;align-items: center;align-content: center;" class="btn btn-outline-warning rounded-lg">-</button>
+                                                            </form>
+                                                            
+                                                            <input type="text" readonly value="<%= q %>"/>
+                                                            <form action="/cart/<%= allItems[i]._id.toString() %>" method="post">
+                                                                <button type="submit" style="	height: 2em;width: 2em;background: #f2f2f2;border: 1px solid #ddd;text-align: center;color: black;font-weight: bolder;font-size: 1em;padding: auto;align-items: center;align-content: center;" class="btn btn-outline-warning rounded-lg">+</button>
+                                                            </form>
+                                                            
+                                                        </div>
+                                                        <% } %>
+                                                    <% } else { %>
+                                                        <div class="col-sm-5 col-lg-3">
+                                                                <form action="/cart/<%= allItems[i]._id.toString() %>" method="post">
+                                                                    <button type="submit" class="btn btn-outline-warning rounded-lg ">Add to cart</button>
+                                                                </form>
+                                                            </div>
+                                                    <% } %>
+                                                <% } else { %>
+                                                    <div class="col-sm-5 col-lg-3">
+                                                        <form action="/cart/<%= allItems[i]._id.toString() %>" method="post">
+                                                            <button type="submit" class="btn btn-outline-warning rounded-lg ">Add to cart</button>
+                                                        </form>
+                                                    </div>
+                                                <% } %>
+                                                
+                                            </div>
+                                            
+                                            <p class="card-text font-weight-bold text-muted"> &#8377; <%= allItems[i].cost %></p>
+                                            <p class="card-text text-muted d-none d-lg-block"><%= allItems[i].desc %></p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <% } %>
+                                <% } %>  
+                            </div>
+                                 
+                    </div>
+                <% }) %>
+                 </div>
+        </div>
+
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+        $('body').scrollspy({ target: '#menu-sidebar' })
+        $(document).ready(function() {
+			$('.minus').click(function () {
+				var $input = $(this).parent().find('input');
+				var count = parseInt($input.val()) - 1;
+				count = count < 1 ? 1 : count;
+				$input.val(count);
+				$input.change();
+				return false;
+			});
+			$('.plus').click(function () {
+				var $input = $(this).parent().find('input');
+				$input.val(parseInt($input.val()) + 1);
+				$input.change();
+				return false;
+			});
+		});
+
+    </script>
