@@ -1,16 +1,31 @@
-![Dyce&Dyne](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/homepage.png)
-<p align="center"><a href="https://dyce-dyne.herokuapp.com/">View Demo</a></>
+<p align="center">
+     <img src="https://github.com/bhavya092/Dyce-and-Dyne/blob/main/public/images/logo.png" width="400" height="250">
+</p> 
 
-## `Overview`
+# `Dyce & Dyne`
 
+With an increasing number of parcel deliveries, there is always a need to find a quicker path with lesser time, cost and number of delivery executives. Taking this into consideration,Dyce&Dyne is a modern-day food ordering website which introduces games for earning rewards instead of traditional promo code mechanisms.
 
-Dyce&Dyne is a modern-day food ordering website. You can search for restaurants in your nearby areas or any other locality. Users can Order online & opt for Dine in too. The key concept that sets our app apart from other food ordering apps is giving discounts. Instead of the traditional PROMO Code technique, we introduce games & quizzes. A user can play games and earn rewards in the ratio of their respective score. The games are single-player & some of them are to be played against the AI. A user can also play games as per his/her wish & collect points stored in the Dyce & Dyne wallet which can be later redeemed for discounts/cashback. 
-<br><br>
-The games are 8 Puzzle and connect4.  Algorithms like minimax with alpha-beta pruning, A* are used for these games.
-<br><br>
-Apart from this, we plan to implement graph traversal techniques for routing delivery partners for the shortest & fastest route delivery. Vehicle Routing Problem (a generalized version of Traveling Salesman Problem) is a very well-known problem that can be solved using various search algorithms like Genetic Algorithms.
+A user can play games and earn rewards in the ratio of their respective score. The games like 8 Puzzle and Connect4 are to be played against or judged by the AI. The collected points are stored in the Dyce & Dyne wallet which can be later redeemed for discounts/cashback. Algorithms like minimax with alpha-beta pruning, A* are used for these games.
+Additionally, a solution for the age old Travelling Salesman Problem using genetic algorithms which is responsible for the efficient multi spot single route delivery of parcels is implemented. With the help of Mapbox APIs, optimal route for delivery considering real time traffic and navigation is shown. Razorpay API is used for easy online transactions along with cookies which allow the user to play each game for a maximum of three times a day.
 
-<br><br><br>
+## `Building locally`
+
+1. Clone the repository locally:
+   ```
+   git clone https://github.com/bhavya092/Dyce-and-Dyne.git
+   ```
+
+2. Run the following command to set up all necessary requirements:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Run the following command to deploy the web app on your localhost:
+   ```
+   nodemon app.js
+   ```
+
 
 ## `Tools and Technologies`
 
@@ -27,21 +42,75 @@ Apart from this, we plan to implement graph traversal techniques for routing del
 
 ## `Website Flow`
 
-![Website Flow](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/WebFlow.png)
+![Website Flow](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/WebFlow.png)
 
 <br><br><br>
 
 ## `Database Schema`
 
-![Website Flow](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/databaseSchema.png)
+![Website Flow](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/databaseSchema.png)
 
 <br><br><br>
 
-## `Screenshots`
 
-![Landing Page](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/LandingPage.png)
-![Login](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/UserLogin.png)
-![Profile](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/Profile.png)
-![Games](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/Games.png)
-![Cart](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/Cart.png)
-![TSP](https://github.com/pri1311/Dyce-and-Dyne/blob/master/screenshots/TSP.jpg)
+## `Contributing`
+
+There is a lot to do so contributions are really appreciated! This is a great project for early stage developers to work with.
+
+To begin it is recommended starting with issues labelled [good first issue](https://github.com/bhavya092/Dyce-and-Dyne/labels/good%20first%20issue).
+
+
+How to get started:
+
+1. Fork the Dyce-and-Dyne repo.
+2. Create a new branch in you current repo from the 'master' branch with issue label.
+3. 'Check out' the code with Git or [GitHub Desktop](https://desktop.github.com/)
+4. Check [contributing.md](CONTRIBUTING.md)
+5. Push commits and create a Pull Request (PR) to Dyce-and-Dyne
+
+## `Screenshots`
+ 
+### Landing Page
+
+![Landing Page](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/LandingPage.png)
+<br><br>  
+
+### Login Page
+
+![Login](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/UserLogin.png)
+<br><br>  
+
+### Profile Page 
+
+![Profile](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Profile.png)
+<br><br>  
+
+### Games Page
+
+![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Games.png)
+* Sliding Puzzle:
+
+![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/SlidingPuzzle.png)
+
+* Connect Four:
+
+![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/ConnectFour.png)
+<br><br>  
+
+### Cart Page
+
+* Order: 
+![Cart](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/OrderPage.png)
+
+* Cart:
+![Cart](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Cart.png)
+<br><br>
+
+### Deliver Page
+
+* Admin Panel:
+![TSP](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/AdminPanel.png)
+
+* Deliver Panel:
+![TSP](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/TSP.jpg)
+
