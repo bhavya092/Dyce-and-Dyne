@@ -9,7 +9,7 @@ const User = require("../models/user");
 const FoodItem = require("../models/foodItem");
 const Order = require("../models/order");
 
-
+// Implemetation of Genetic algorithm : Ordered Crossover
 var NO_OF_CHILDREN = 0;
 var N = 0;
 var CITIES = [];
@@ -153,6 +153,7 @@ const _addressToLatLng = async (address) => {
 };
 
 //=============================== ROUTES ===============================
+
 
 deliveryRouter.get("/tsp/:deliveryNo", isDeliveryAgentLoggedIn ,async function (req, res) {
 	var currdt = Date.now();

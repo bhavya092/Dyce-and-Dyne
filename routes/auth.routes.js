@@ -9,10 +9,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+//Show Login Page
 userRouter.get("/login", function (req, res) {
 	res.render("login");
 });
 
+
+//Login User using Passport js
 userRouter.post("/login", function (req, res, next) {
 	passport.authenticate(
 		"local",
@@ -45,10 +49,13 @@ userRouter.post("/login", function (req, res, next) {
 	)(req, res, next);
 });
 
+//Show Signup Page
 userRouter.get("/signup", function (req, res) {
 	res.render("signup");
 });
 
+
+//Authenticate User first time
 userRouter.post("/signup", function (req, res) {
 	console.log(req.body);
 	var newUser = new User({
@@ -94,10 +101,12 @@ userRouter.post("/signup", function (req, res) {
 	});
 });
 
+//Show login for Delivery agents
 userRouter.get("/deliverylogin", function (req, res) {
 	res.render("deliverylogin");
 });
 
+// Carry out login for delivery agents
 userRouter.post("/deliverylogin", function (req, res, next) {
 	passport.authenticate(
 		"local",
@@ -108,8 +117,7 @@ userRouter.post("/deliverylogin", function (req, res, next) {
 			succssFlash: true,
 		},
 		function (err, user) {
-			// console.log(req.user);
-			// console.log(user);
+	
 			if (err) {
 				return next(err);
 			}
@@ -125,8 +133,6 @@ userRouter.post("/deliverylogin", function (req, res, next) {
 				if (err) {
 					return next(err);
 				}
-				// console.log(" ----- req.user -----");
-				// console.log(req.user);
 				req.flash("success", "Welcome back " + user.name);
 				return res.redirect("/delivery");
 			});
@@ -134,10 +140,14 @@ userRouter.post("/deliverylogin", function (req, res, next) {
 	)(req, res, next);
 });
 
+
+// Show Signup for delivery agents
 userRouter.get("/deliverysignup", function (req, res) {
 	res.render("deliverysignup");
 });
 
+
+// Signup delivery agents
 userRouter.post("/deliverysignup", function (req, res) {
 	var newDeliveryAgent = new User({
 		username: req.body.username,
@@ -182,6 +192,8 @@ userRouter.post("/deliverysignup", function (req, res) {
 	});
 });
 
+
+//Logout any users.
 userRouter.get("/logout", function (req, res) {
 	req.logout();
 	req.flash("success", "Logged you out!");

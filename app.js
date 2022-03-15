@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+// Imports 
 const express = require("express");
 const app = express();
 const passport = require("passport");
@@ -17,16 +18,19 @@ app.use(cors());
 const {isLoggedIn, isDeliveryAgentLoggedIn} = require('./middleware/authentication.js');
 
 
+//Razorpay Instance
 const instance = new Razorpay({
 	key_id: process.env.KEY_ID,
 	key_secret: process.env.KEY_SECRET,
 });
 
+
+//Schema Initiations
 const User = require("./models/user");
 const FoodItem = require("./models/foodItem");
 const Order = require("./models/order");
 
-
+//Mongoose Connection
 mongoose.connect( process.env.MONGO_URI,
 	{
 		useNewUrlParser: true,
@@ -72,14 +76,15 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + "/public"));
 
+
+//Routers
 var userRouter = require('./routes/auth.routes');
 var cartRouter = require('./routes/cart.routes');
 var deliveryRouter = require('./routes/delivery.routes');
 var gamesRouter = require('./routes/games.routes');
 
 
-// HOME PAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+// Home Page
 app.get("/", (req, res) => {
 	var recItems = [
 		{
@@ -119,8 +124,6 @@ app.get("/", (req, res) => {
 	res.render("index",{topItems : recItems});
 });
 
-// MENU & CART ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 //Renders the list of all menu items
 app.get("/menu", (req, res) => {
 	FoodItem.find(function (err, allItems) {
@@ -133,10 +136,8 @@ app.get("/menu", (req, res) => {
 	});
 });
 
-app.use('/cart', cartRouter);
-app.use('/delivery', deliveryRouter);
-app.use('/games', gamesRouter);
 
+//Show User profile
 app.get("/profile", isLoggedIn, function (req, res) {
 	User.findById(req.user._id, function (err, foundUser) {
 		if (err) {
@@ -154,6 +155,7 @@ app.get("/profile", isLoggedIn, function (req, res) {
 });
 
 
+//Add points to wallet
 app.post("/addWalletPoints", isLoggedIn, function (req, res) {
 	User.findById(req.user._id, function (err, foundUser) {
 		if (err) {
@@ -214,7 +216,8 @@ app.get("/ordercard", isLoggedIn, function (req, res) {
 	});
 });
 
-//Razorpay integrations.
+
+//Razorpay Payment Routes
 app.post("/api/payment/order", (req, res) => {
 	params = req.body;
 	instance.orders
@@ -242,6 +245,8 @@ app.post("/api/payment/verify", (req, res) => {
 	res.send(response);
 });
 
+
+//Add Order to database
 app.post("/afterOrderPlaced", (req, res) => {
 	if (req.isAuthenticated()) {
 		User.findById(req.user._id, (err, founduser) => {
@@ -320,8 +325,12 @@ app.get("/orderconfirmed/:orderID", isLoggedIn, (req, res) => {
 
 
 
-//-----------------------------AUTH--------------------------------------
+// Routers
 app.use('/auth', userRouter);
+app.use('/cart', cartRouter);
+app.use('/delivery', deliveryRouter);
+app.use('/games', gamesRouter);
+
 
 
 

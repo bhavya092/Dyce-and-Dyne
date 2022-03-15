@@ -5,6 +5,8 @@ const User = require("../models/user");
 const FoodItem = require("../models/foodItem");
 const Order = require("../models/order");
 
+
+// Show Cart items
 cartRouter.get("/", isLoggedIn, (req, res) => {
 	User.findById(req.user._id, async function (err, founduser) {
 		if (err) {
@@ -29,6 +31,7 @@ cartRouter.get("/", isLoggedIn, (req, res) => {
 	});
 });
 
+//Confirm Cart order
 cartRouter.post("/:id", isLoggedIn, function (req, res) {
 	User.findById(req.user._id, function (err, founduser) {
 		if (err) {
@@ -101,6 +104,8 @@ cartRouter.post("/:id", isLoggedIn, function (req, res) {
 	});
 });
 
+
+// Decrease item quantity from cart
 cartRouter.delete("/decrement/:id", isLoggedIn, function (req, res) {
 	User.findById(req.user._id, function (err, founduser) {
 		if (err) {
@@ -163,6 +168,7 @@ cartRouter.delete("/decrement/:id", isLoggedIn, function (req, res) {
 	});
 });
 
+// Remove item from cart
 cartRouter.delete("/:id", isLoggedIn, function (req, res) {
 	User.findById(req.user._id, function (err, founduser) {
 		if (err) {
@@ -207,10 +213,6 @@ cartRouter.delete("/:id", isLoggedIn, function (req, res) {
 					);
 					founduser.markModified('cart');
 					founduser.save();
-					// req.flash(
-					// 	"success",
-					// 	foundItem.title + " removed from cart.",
-					// );
 					return res.redirect("/cart");
 				}
 			});
