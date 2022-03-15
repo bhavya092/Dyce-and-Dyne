@@ -9,6 +9,8 @@ With an increasing number of parcel deliveries, there is always a need to find a
 A user can play games and earn rewards in the ratio of their respective score. The games like 8 Puzzle and Connect4 are to be played against or judged by the AI. The collected points are stored in the Dyce & Dyne wallet which can be later redeemed for discounts/cashback. Algorithms like minimax with alpha-beta pruning, A* are used for these games.
 Additionally, a solution for the age old Travelling Salesman Problem using genetic algorithms which is responsible for the efficient multi spot single route delivery of parcels is implemented. With the help of Mapbox APIs, optimal route for delivery considering real time traffic and navigation is shown. Razorpay API is used for easy online transactions along with cookies which allow the user to play each game for a maximum of three times a day.
 
+Link to the deployed version : http://dyce-dyne.herokuapp.com/
+
 ## `Building locally`
 
 1. Clone the repository locally:
