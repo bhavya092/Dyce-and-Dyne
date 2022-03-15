@@ -114,3 +114,12 @@ How to get started:
 * Deliver Panel:
 ![TSP](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/TSP.jpg)
 
+
+## `Collaborators`
+
+Darsh Bavishi : https://github.com/DarshBavishi
+
+Priya Nagda   : https://github.com/pri1311
+
+Jainam Dharod : https://github.com/Jainam-Dharod
+
