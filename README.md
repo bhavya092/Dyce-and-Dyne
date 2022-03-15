@@ -82,25 +82,25 @@ How to get started:
 
 ### Profile Page 
 
-![Profile](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Profile.png)
+![Profile](https://user-images.githubusercontent.com/64348567/158325810-62cf557f-d2ab-46a7-9d1f-a58374173f0d.png)
+
 <br><br>  
 
 ### Games Page
 
-![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Games.png)
+![Games](https://user-images.githubusercontent.com/64348567/158324243-05654457-f85b-4698-b459-55ab7da2e96a.png)
 * Sliding Puzzle:
 
-![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/SlidingPuzzle.png)
+![Games](https://user-images.githubusercontent.com/64348567/158324316-76efc980-61fc-4e2f-8ac8-8d22fe717f70.png)
+
 
 * Connect Four:
 
-![Games](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/ConnectFour.png)
+![Games](https://user-images.githubusercontent.com/64348567/158324393-9579b616-af56-41b3-94d7-eae0025bcf3a.png)
+
 <br><br>  
 
 ### Cart Page
-
-* Order: 
-![Cart](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/OrderPage.png)
 
 * Cart:
 ![Cart](https://github.com/bhavya092/Dyce-and-Dyne/blob/main/screenshots/Cart.png)
